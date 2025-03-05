@@ -1,11 +1,54 @@
 package handler
 
 import (
+	"time"
+
 	"github.com/cidmiranda/go-fiber-ws/database"
 	"github.com/cidmiranda/go-fiber-ws/model"
 	"github.com/gofiber/fiber/v2"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 )
+
+// Login a user
+func LoginUser(c *fiber.Ctx) error {
+	db := database.DB.Db
+	user := new(model.User)
+	// Store the body in the user and return error if encountered
+	err := c.BodyParser(user)
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": err})
+	}
+	inputedPassword := user.Password
+	// find single user in the database by username
+	db.Find(&user, "username = ?", user.Username)
+	if user.ID == uuid.Nil {
+		return c.Status(401).JSON(fiber.Map{"status": "error", "message": "User not found", "data": nil})
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(inputedPassword))
+	if err != nil && err == bcrypt.ErrMismatchedHashAndPassword {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Invalid login credentials. Please try again"})
+	}
+	user.Password = ""
+	// Create the Claims
+	claims := jwt.MapClaims{
+		"email": user.Email,
+		"id":    user.ID,
+		"exp":   time.Now().Add(time.Hour * 72).Unix(),
+	}
+
+	// Create token
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+
+	// Generate encoded token and send it as response.
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	return c.Status(200).JSON(fiber.Map{"token": t})
+}
 
 // Create a user
 func CreateUser(c *fiber.Ctx) error {
@@ -13,6 +56,8 @@ func CreateUser(c *fiber.Ctx) error {
 	user := new(model.User)
 	// Store the body in the user and return error if encountered
 	err := c.BodyParser(user)
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	user.Password = string(hashedPassword)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Something's wrong with your input", "data": err})
 	}
