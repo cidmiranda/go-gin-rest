@@ -1,0 +1,261 @@
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  model.Login:
+    description: Login Object
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  model.Message:
+    description: Message Object
+    properties:
+      message:
+        description: message
+        type: string
+      status:
+        description: status
+        type: string
+    type: object
+  model.Token:
+    description: Token Object
+    properties:
+      token:
+        description: token
+        type: string
+    type: object
+  model.User:
+    description: User Object
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: string
+      password:
+        type: string
+      updatedAt:
+        type: string
+      username:
+        type: string
+    type: object
+  model.Users:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/model.User'
+        type: array
+    type: object
+info:
+  contact:
+    email: fiber@swagger.io
+    name: API Support
+  description: This is a sample swagger for Fiber
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Fiber Example API
+  version: "1.0"
+paths:
+  /api/auth:
+    post:
+      consumes:
+      - application/json
+      description: Login User by username and password
+      parameters:
+      - description: Request of Login User Object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.Login'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Token'
+        "400":
+          description: 'Error: Bad Requestt'
+          schema:
+            $ref: '#/definitions/model.Message'
+        "401":
+          description: 'Error: Unauthorized'
+          schema:
+            $ref: '#/definitions/model.Message'
+      summary: Login User by username and password
+      tags:
+      - Auth
+  /api/user:
+    get:
+      consumes:
+      - application/json
+      description: Get All Users from db
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Users'
+        "401":
+          description: 'Error: Unauthorized'
+          schema:
+            $ref: '#/definitions/model.Message'
+        "500":
+          description: 'Error: Bad Requestt'
+          schema:
+            $ref: '#/definitions/model.Message'
+      security:
+      - ApiKeyAuth: []
+      summary: Get All Users from db
+      tags:
+      - User
+    post:
+      consumes:
+      - application/json
+      description: Create a new User
+      parameters:
+      - description: Request of User Object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "401":
+          description: 'Error: Unauthorized'
+          schema:
+            $ref: '#/definitions/model.Message'
+        "500":
+          description: 'Error: Bad Requestt'
+          schema:
+            $ref: '#/definitions/model.Message'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new User
+      tags:
+      - User
+  /api/user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a User from db
+      parameters:
+      - description: id of User Object
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "401":
+          description: 'Error: Unauthorized'
+          schema:
+            $ref: '#/definitions/model.Message'
+        "500":
+          description: 'Error: Bad Requestt'
+          schema:
+            $ref: '#/definitions/model.Message'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a User from db
+      tags:
+      - User
+  /api/user{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete user in db by ID
+      parameters:
+      - description: id of User Object
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Message'
+        "401":
+          description: 'Error: Unauthorized'
+          schema:
+            $ref: '#/definitions/model.Message'
+        "500":
+          description: 'Error: Bad Requestt'
+          schema:
+            $ref: '#/definitions/model.Message'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete user in db by ID
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: Update a User in bd
+      parameters:
+      - description: Request of User Object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.User'
+      - description: id of User Object
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.User'
+        "401":
+          description: 'Error: Unauthorized'
+          schema:
+            $ref: '#/definitions/model.Message'
+        "500":
+          description: 'Error: Bad Requestt'
+          schema:
+            $ref: '#/definitions/model.Message'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a User in db
+      tags:
+      - User
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -5,7 +5,8 @@ import (
 	"gorm.io/gorm"
 )
 
-// User struct
+// User
+// @Description User Object
 type User struct {
 	gorm.Model
 	ID       uuid.UUID `gorm:"type:uuid;"`
@@ -14,7 +15,6 @@ type User struct {
 	Password string    `json:"password"`
 }
 
-// Users struct
 type Users struct {
 	Users []User `json:"users"`
 }
