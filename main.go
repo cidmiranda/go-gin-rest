@@ -12,13 +12,12 @@ import (
 
 // @title GO Fiber API
 // @version 1.0
-// @description API desenvolvida em Go, com fiber, postgres e gorm
+// @description API desenvolvida em Go, fiber, postgres e gorm
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
 // @name Authorization
 // @host localhost:8080
 // @BasePath /
-
 func main() {
 	database.Connect()
 	app := fiber.New()

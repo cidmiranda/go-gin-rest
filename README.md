@@ -2,6 +2,9 @@
 
 Aplicação rest, desenvolvida em [Go](https://go.dev/), [Gorm](https://gorm.io/) and [PostgreSQL](https://www.postgresql.org/).
 
+## Criando um projeto Go
+go mod init github.com/{nome-usuario}/{nome-projeto}
+
 ## Executando a aplicação
 
 1. Instalar o [Go](https://go.dev/dl/)
