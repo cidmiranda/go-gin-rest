@@ -15,60 +15,14 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/auth": {
-            "post": {
-                "description": "Login User by username and password",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Login User by username and password",
-                "parameters": [
-                    {
-                        "description": "Request of Login User Object",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Login"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Token"
-                        }
-                    },
-                    "400": {
-                        "description": "Error: Bad Requestt",
-                        "schema": {
-                            "$ref": "#/definitions/model.Message"
-                        }
-                    },
-                    "401": {
-                        "description": "Error: Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/model.Message"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/user": {
+        "/users": {
             "get": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Get All Users from db",
+                "description": "List users with pagination",
                 "consumes": [
                     "application/json"
                 ],
@@ -76,37 +30,48 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
-                "summary": "Get All Users from db",
+                "summary": "List users",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Skip",
+                        "name": "skip",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Users displayed",
                         "schema": {
-                            "$ref": "#/definitions/model.Users"
+                            "$ref": "#/definitions/http.meta"
                         }
                     },
-                    "401": {
-                        "description": "Error: Unauthorized",
+                    "400": {
+                        "description": "Validation error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     },
                     "500": {
-                        "description": "Error: Bad Requestt",
+                        "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     }
                 }
             },
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Create a new User",
+                "description": "create a new user account with default role \"cashier\"",
                 "consumes": [
                     "application/json"
                 ],
@@ -114,50 +79,120 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
-                "summary": "Create a new User",
+                "summary": "Register a new user",
                 "parameters": [
                     {
-                        "description": "Request of User Object",
-                        "name": "request",
+                        "description": "Register request",
+                        "name": "registerRequest",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/http.registerRequest"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "User created",
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/http.userResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     },
                     "401": {
-                        "description": "Error: Unauthorized",
+                        "description": "Unauthorized error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Data conflict error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     },
                     "500": {
-                        "description": "Error: Bad Requestt",
+                        "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     }
                 }
             }
         },
-        "/api/user/{id}": {
+        "/users/login": {
+            "post": {
+                "description": "Logs in a registered user and returns an access token if the credentials are valid.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Login and get an access token",
+                "parameters": [
+                    {
+                        "description": "Login request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/http.loginRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Succesfully logged in",
+                        "schema": {
+                            "$ref": "#/definitions/http.authResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
             "get": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Get a User from db",
+                "description": "Get a user by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -165,13 +200,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
-                "summary": "Get a User from db",
+                "summary": "Get a user",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "id of User Object",
+                        "type": "integer",
+                        "description": "User ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -179,34 +214,38 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "User displayed",
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/http.userResponse"
                         }
                     },
-                    "401": {
-                        "description": "Error: Unauthorized",
+                    "400": {
+                        "description": "Validation error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     },
                     "500": {
-                        "description": "Error: Bad Requestt",
+                        "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     }
                 }
-            }
-        },
-        "/api/user{id}": {
+            },
             "put": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Update a User in bd",
+                "description": "Update a user's name, email, password, or role by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -214,44 +253,62 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
-                "summary": "Update a User in db",
+                "summary": "Update a user",
                 "parameters": [
                     {
-                        "description": "Request of User Object",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.User"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "id of User Object",
+                        "type": "integer",
+                        "description": "User ID",
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Update user request",
+                        "name": "updateUserRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/http.updateUserRequest"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "User updated",
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/http.userResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     },
                     "401": {
-                        "description": "Error: Unauthorized",
+                        "description": "Unauthorized error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     },
                     "500": {
-                        "description": "Error: Bad Requestt",
+                        "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     }
                 }
@@ -259,10 +316,10 @@ const docTemplate = `{
             "delete": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "BearerAuth": []
                     }
                 ],
-                "description": "Delete user in db by ID",
+                "description": "Delete a user by id",
                 "consumes": [
                     "application/json"
                 ],
@@ -270,13 +327,13 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Users"
                 ],
-                "summary": "Delete user in db by ID",
+                "summary": "Delete a user",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "id of User Object",
+                        "type": "integer",
+                        "description": "User ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -284,21 +341,39 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "User deleted",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.response"
+                        }
+                    },
+                    "400": {
+                        "description": "Validation error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     },
                     "401": {
-                        "description": "Error: Unauthorized",
+                        "description": "Unauthorized error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Data not found error",
+                        "schema": {
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     },
                     "500": {
-                        "description": "Error: Bad Requestt",
+                        "description": "Internal server error",
                         "schema": {
-                            "$ref": "#/definitions/model.Message"
+                            "$ref": "#/definitions/http.errorResponse"
                         }
                     }
                 }
@@ -306,95 +381,158 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "gorm.DeletedAt": {
-            "type": "object",
-            "properties": {
-                "time": {
-                    "type": "string"
-                },
-                "valid": {
-                    "description": "Valid is true if Time is not NULL",
-                    "type": "boolean"
-                }
-            }
-        },
-        "model.Login": {
-            "description": "Login Object",
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.Message": {
-            "description": "Message Object",
-            "type": "object",
-            "properties": {
-                "message": {
-                    "description": "message",
-                    "type": "string"
-                },
-                "status": {
-                    "description": "status",
-                    "type": "string"
-                }
-            }
-        },
-        "model.Token": {
-            "description": "Token Object",
+        "http.authResponse": {
             "type": "object",
             "properties": {
                 "token": {
-                    "description": "token",
-                    "type": "string"
+                    "type": "string",
+                    "example": "v2.local.Gdh5kiOTyyaQ3_bNykYDeYHO21Jg2..."
                 }
             }
         },
-        "model.User": {
-            "description": "User Object",
+        "http.errorResponse": {
             "type": "object",
             "properties": {
-                "createdAt": {
-                    "type": "string"
-                },
-                "deletedAt": {
-                    "$ref": "#/definitions/gorm.DeletedAt"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "password": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                },
-                "username": {
-                    "type": "string"
-                }
-            }
-        },
-        "model.Users": {
-            "type": "object",
-            "properties": {
-                "users": {
+                "messages": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/model.User"
-                    }
+                        "type": "string"
+                    },
+                    "example": [
+                        "Error message 1",
+                        " Error message 2"
+                    ]
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        },
+        "http.loginRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@example.com"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "12345678"
+                }
+            }
+        },
+        "http.meta": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer",
+                    "example": 10
+                },
+                "skip": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "total": {
+                    "type": "integer",
+                    "example": 100
+                }
+            }
+        },
+        "http.registerRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@example.com"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "12345678"
+                }
+            }
+        },
+        "http.response": {
+            "type": "object",
+            "properties": {
+                "data": {},
+                "message": {
+                    "type": "string",
+                    "example": "Success"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
+                }
+            }
+        },
+        "http.updateUserRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "name",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "test@example.com"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "12345678"
+                }
+            }
+        },
+        "http.userResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "example": "1970-01-01T00:00:00Z"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "test@example.com"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "John Doe"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "example": "1970-01-01T00:00:00Z"
                 }
             }
         }
     },
     "securityDefinitions": {
-        "ApiKeyAuth": {
+        "BearerAuth": {
+            "description": "Type \"Bearer\" followed by a space and the access token.",
             "type": "apiKey",
             "name": "Authorization",
             "in": "header"
@@ -405,11 +543,11 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "",
-	BasePath:         "",
-	Schemes:          []string{},
-	Title:            "GO Fiber API",
-	Description:      "API desenvolvida em Go, com fiber, postgres e gorm",
+	Host:             "localhost:8080",
+	BasePath:         "/v1",
+	Schemes:          []string{"http", "https"},
+	Title:            "Go API",
+	Description:      "This is a simple RESTful Service API written in Go using Gin web framework, PostgreSQL database, and Redis cache.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
