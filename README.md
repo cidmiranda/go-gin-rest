@@ -1,9 +1,6 @@
-# Encurtador de URL
+# Go RESTful API
 
 Aplicação rest, desenvolvida em [Go](https://go.dev/), [Gorm](https://gorm.io/) and [PostgreSQL](https://www.postgresql.org/).
-
-## Criando um projeto Go
-go mod init github.com/{nome-usuario}/{nome-projeto}
 
 ## Executando a aplicação
 
@@ -12,13 +9,13 @@ go mod init github.com/{nome-usuario}/{nome-projeto}
 3. Clonar a aplicação:
 
 ```bash
-git clone git@github.com:cidmiranda/go-fiber-ws.git
+git clone git@github.com:cidmiranda/go-rest.git
 ```
 
 4. Vá até a pasta da aplicação
 
 ```bash
-cd go-fiber-ws
+cd go-rest
 ```
 
 5. Execute a imagem docker
