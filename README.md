@@ -1,9 +1,6 @@
-# Encurtador de URL
+# Go RESTful API
 
-Aplicação rest, desenvolvida em [Go](https://go.dev/), [Gorm](https://gorm.io/) and [PostgreSQL](https://www.postgresql.org/).
-
-## Criando um projeto Go
-go mod init github.com/{nome-usuario}/{nome-projeto}
+Aplicação rest, desenvolvida em [Go](https://go.dev/), [Gin](https://gin-gonic.com/), [PostgreSQL](https://www.postgresql.org/) and [Redis](https://redis.io/).
 
 ## Executando a aplicação
 
@@ -12,19 +9,27 @@ go mod init github.com/{nome-usuario}/{nome-projeto}
 3. Clonar a aplicação:
 
 ```bash
-git clone git@github.com:cidmiranda/go-fiber-ws.git
+git clone git@github.com:cidmiranda/go-rest.git
 ```
 
 4. Vá até a pasta da aplicação
 
 ```bash
-cd go-fiber-ws
+cd go-rest
 ```
 
-5. Execute a imagem docker
+5. Execute a imagem docker com o postgres e o redis
 
 ```bash
 docker-compose -f docker-compose.yml -f dbadmin.yml up --build
 ```
 
-6. Acesse a documentação da aplicação em http://localhost:8080/swagger/index.html.
+6. Em outro terminal execute a aplicação
+
+```bash
+go run cmd/http/main.go
+```
+
+7. Acesse a documentação da aplicação em http://localhost:8080/docs/index.html.
+
+![Alt text](docs/hexaarchi.drawio.png "Arquitetura")

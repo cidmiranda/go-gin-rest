@@ -11,8 +11,8 @@ COPY . .
 RUN go mod download
 
 # build binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./gows ./cmd/http/main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./gorest ./cmd/http/main.go
 
 EXPOSE 8080
 
-ENTRYPOINT [ "./gows" ]
+ENTRYPOINT [ "./gorest" ]

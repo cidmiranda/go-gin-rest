@@ -17,18 +17,18 @@ import (
 	"github.com/cidmiranda/go-fiber-ws/internal/core/service"
 )
 
-// @title					Go API
-// @version					1.0
-// @description				This is a simple RESTful Service API written in Go using Gin web framework, PostgreSQL database, and Redis cache.
+// @title						Go API
+// @version						1.0
+// @description					This is a simple RESTful Service API written in Go using Gin web framework, PostgreSQL database, and Redis cache.
 
 // @host						localhost:8080
 // @BasePath					/v1
-// @schemes					http https
+// @schemes						http https
 //
 // @securityDefinitions.apikey	BearerAuth
 // @in							header
 // @name						Authorization
-// @description				Type "Bearer" followed by a space and the access token.
+// @description					Type "Bearer" followed by a space and the access token.
 func main() {
 	// Load environment variables
 	config, err := config.New()
