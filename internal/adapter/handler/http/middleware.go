@@ -3,8 +3,8 @@ package http
 import (
 	"strings"
 
-	"github.com/cidmiranda/go-fiber-ws/internal/core/domain"
-	"github.com/cidmiranda/go-fiber-ws/internal/core/port"
+	"github.com/cidmiranda/go-ws/internal/core/domain"
+	"github.com/cidmiranda/go-ws/internal/core/port"
 	"github.com/gin-gonic/gin"
 )
 

@@ -5,10 +5,10 @@ import (
 	"testing"
 
 	"github.com/brianvoe/gofakeit"
-	"github.com/cidmiranda/go-fiber-ws/internal/core/domain"
-	"github.com/cidmiranda/go-fiber-ws/internal/core/port/mock"
-	"github.com/cidmiranda/go-fiber-ws/internal/core/service"
-	"github.com/cidmiranda/go-fiber-ws/internal/core/util"
+	"github.com/cidmiranda/go-ws/internal/core/domain"
+	"github.com/cidmiranda/go-ws/internal/core/port/mock"
+	"github.com/cidmiranda/go-ws/internal/core/service"
+	"github.com/cidmiranda/go-ws/internal/core/util"
 	"go.uber.org/mock/gomock"
 )
 

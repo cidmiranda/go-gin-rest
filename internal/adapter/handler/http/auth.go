@@ -1,7 +1,7 @@
 package http
 
 import (
-	"github.com/cidmiranda/go-fiber-ws/internal/core/port"
+	"github.com/cidmiranda/go-ws/internal/core/port"
 	"github.com/gin-gonic/gin"
 )
 

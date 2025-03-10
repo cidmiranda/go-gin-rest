@@ -1,4 +1,4 @@
-module github.com/cidmiranda/go-fiber-ws
+module github.com/cidmiranda/go-ws
 
 go 1.24.0
 

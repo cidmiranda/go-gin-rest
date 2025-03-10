@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/config"
-	"github.com/cidmiranda/go-fiber-ws/internal/core/port"
+	"github.com/cidmiranda/go-ws/internal/adapter/config"
+	"github.com/cidmiranda/go-ws/internal/core/port"
 	"github.com/redis/go-redis/v9"
 )
 

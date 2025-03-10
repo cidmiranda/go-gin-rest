@@ -5,8 +5,8 @@ import (
 	"time"
 
 	sq "github.com/Masterminds/squirrel"
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/storage/postgres"
-	"github.com/cidmiranda/go-fiber-ws/internal/core/domain"
+	"github.com/cidmiranda/go-ws/internal/adapter/storage/postgres"
+	"github.com/cidmiranda/go-ws/internal/core/domain"
 	"github.com/jackc/pgx/v5"
 )
 

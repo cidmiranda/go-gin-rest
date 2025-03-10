@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/Masterminds/squirrel"
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/config"
+	"github.com/cidmiranda/go-ws/internal/adapter/config"
 	"github.com/golang-migrate/migrate/v4"
 	_ "github.com/golang-migrate/migrate/v4/database/postgres"
 	"github.com/golang-migrate/migrate/v4/source/iofs"

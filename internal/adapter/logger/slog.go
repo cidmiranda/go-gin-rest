@@ -4,7 +4,7 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/config"
+	"github.com/cidmiranda/go-ws/internal/adapter/config"
 	slogmulti "github.com/samber/slog-multi"
 	"gopkg.in/natefinch/lumberjack.v2"
 )

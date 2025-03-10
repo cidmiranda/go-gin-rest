@@ -3,7 +3,7 @@ package port
 import (
 	"context"
 
-	"github.com/cidmiranda/go-fiber-ws/internal/core/domain"
+	"github.com/cidmiranda/go-ws/internal/core/domain"
 )
 
 type TokenService interface {

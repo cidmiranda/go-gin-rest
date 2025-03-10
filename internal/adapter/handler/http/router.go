@@ -4,8 +4,8 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/config"
-	"github.com/cidmiranda/go-fiber-ws/internal/core/port"
+	"github.com/cidmiranda/go-ws/internal/adapter/config"
+	"github.com/cidmiranda/go-ws/internal/core/port"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	sloggin "github.com/samber/slog-gin"

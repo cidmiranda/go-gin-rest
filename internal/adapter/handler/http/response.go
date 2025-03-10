@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/cidmiranda/go-fiber-ws/internal/core/domain"
+	"github.com/cidmiranda/go-ws/internal/core/domain"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 )

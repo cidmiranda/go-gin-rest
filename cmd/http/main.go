@@ -6,15 +6,15 @@ import (
 	"log/slog"
 	"os"
 
-	_ "github.com/cidmiranda/go-fiber-ws/docs"
-	paseto "github.com/cidmiranda/go-fiber-ws/internal/adapter/auth/passeto"
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/config"
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/handler/http"
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/logger"
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/storage/postgres"
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/storage/postgres/repository"
-	"github.com/cidmiranda/go-fiber-ws/internal/adapter/storage/redis"
-	"github.com/cidmiranda/go-fiber-ws/internal/core/service"
+	_ "github.com/cidmiranda/go-ws/docs"
+	paseto "github.com/cidmiranda/go-ws/internal/adapter/auth/passeto"
+	"github.com/cidmiranda/go-ws/internal/adapter/config"
+	"github.com/cidmiranda/go-ws/internal/adapter/handler/http"
+	"github.com/cidmiranda/go-ws/internal/adapter/logger"
+	"github.com/cidmiranda/go-ws/internal/adapter/storage/postgres"
+	"github.com/cidmiranda/go-ws/internal/adapter/storage/postgres/repository"
+	"github.com/cidmiranda/go-ws/internal/adapter/storage/redis"
+	"github.com/cidmiranda/go-ws/internal/core/service"
 )
 
 // @title						Go API
