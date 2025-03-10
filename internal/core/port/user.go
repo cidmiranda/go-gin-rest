@@ -6,6 +6,8 @@ import (
 	"github.com/cidmiranda/go-fiber-ws/internal/core/domain"
 )
 
+//go:generate mockgen -source=user.go -destination=mock/user.go -package=mock
+
 type UserRepository interface {
 	CreateUser(ctx context.Context, user *domain.User) (*domain.User, error)
 	GetUserByID(ctx context.Context, id uint64) (*domain.User, error)

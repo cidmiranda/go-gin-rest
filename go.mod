@@ -22,9 +22,12 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 )
 
+require go.uber.org/mock v0.5.0
+
 require (
 	aidanwoods.dev/go-result v0.3.1 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
+	github.com/brianvoe/gofakeit v3.18.0+incompatible
 	github.com/bytedance/sonic v1.13.1 // indirect
 	github.com/bytedance/sonic/loader v0.2.4 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
