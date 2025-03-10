@@ -22,7 +22,16 @@ require (
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1
 )
 
-require go.uber.org/mock v0.5.0
+require (
+	github.com/brianvoe/gofakeit/v6 v6.28.0
+	github.com/stretchr/testify v1.10.0
+	go.uber.org/mock v0.5.0
+)
+
+require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+)
 
 require (
 	aidanwoods.dev/go-result v0.3.1 // indirect
